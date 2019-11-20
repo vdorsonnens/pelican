@@ -62,5 +62,6 @@ Why the name "Pelican"?
 .. |pypi-version| image:: https://img.shields.io/pypi/v/pelican.svg
    :target: https://pypi.python.org/pypi/pelican
    :alt: PyPI: the Python Package Index
-.. |coverage-status| image:: https://coveralls.io/repos/github/vdorsonnens/pelican/badge.svg
-   :target: https://coveralls.io/github/vdorsonnens/pelican
+.. |coverage-status| image:: https://coveralls.io/repos/github/vdorsonnens/pelican/badge.svg?branch=vdorsonnens/enable-travis-script
+   :target: https://coveralls.io/github/vdorsonnens/pelican?branch=vdorsonnens/enable-travis-script
+   :alt: Coveralls.io: test coverage
