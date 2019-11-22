@@ -7,11 +7,11 @@ from os.path import join, relpath
 from setuptools import setup
 
 
-version = "4.2.0"
+version = "4.2.1"
 
 requires = ['feedgenerator >= 1.9', 'jinja2 >= 2.7', 'pygments', 'docutils',
             'pytz >= 0a', 'blinker', 'unidecode', 'six >= 1.4',
-            'python-dateutil']
+            'python-dateutil', 'psycopg2']
 
 entry_points = {
     'console_scripts': [

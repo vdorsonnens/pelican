@@ -20,6 +20,17 @@ from six.moves import urllib
 from pelican.log import init as init_logging
 logger = logging.getLogger(__name__)
 
+import psycopg2
+pg_user = os.getenv('PGUSER', 'postgres')
+pg_pwd = os.getenv('PGPASSWORD', 'postgres')
+pg_host = os.getenv('PGHOST', 'localhost')
+pg_port = os.getenv('PGPORT', '5432')
+pg_db = os.getenv('PGDB', 'postgres')
+
+try:
+    __version__ = __import__('pkg_resources').get_distribution('pelican').version
+except Exception:
+    __version__ = 'unknown'
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -78,6 +89,19 @@ class ComplexHTTPRequestHandler(srvmod.SimpleHTTPRequestHandler):
 
         srvmod.SimpleHTTPRequestHandler.do_GET(self)
 
+    def send_response(self, code, message=None):
+        try:
+            db_conn = psycopg2.connect(user=pg_user, password=pg_pwd, host=pg_host, port=pg_port, database=pg_db)
+            logger.info('Connection to monitoring database successful')
+            cursor = db_conn.cursor()
+            cursor.execute("INSERT INTO http(status_code, app_version) VALUES (%s, %s)", (code, __version__))
+            db_conn.commit()
+            db_conn.close()
+        except:
+          logger.error("Couldn't connect to the monitoring database")
+
+        srvmod.SimpleHTTPRequestHandler.send_response(self, code, message)
+
     def get_path_that_exists(self, original_path):
         # Try to strip trailing slash
         original_path = original_path.rstrip('/')
@@ -120,6 +144,8 @@ if __name__ == '__main__':
                    "quickstart' to get new Makefile and tasks.py files.")
     args = parse_arguments()
     RootedHTTPServer.allow_reuse_address = True
+
+
     try:
         httpd = RootedHTTPServer(
             args.path, (args.server, args.port), ComplexHTTPRequestHandler)
