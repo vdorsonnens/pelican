@@ -25,6 +25,7 @@ logger = logging.getLogger(__name__)
 class Writer(object):
 
     def __init__(self, output_path, settings=None):
+	print("start writing")
         self.output_path = output_path
         self.reminder = dict()
         self.settings = settings or {}
