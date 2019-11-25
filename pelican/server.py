@@ -28,6 +28,11 @@ pg_port = os.getenv('PGPORT', '5432')
 pg_db = os.getenv('PGDB', 'postgres')
 
 try:
+  MONITOR = bool(os.getenv('PELICAN_MONITOR', False))
+except:
+  MONITOR = False
+
+try:
     __version__ = __import__('pkg_resources').get_distribution('pelican').version
 except Exception:
     __version__ = 'unknown'
@@ -90,15 +95,16 @@ class ComplexHTTPRequestHandler(srvmod.SimpleHTTPRequestHandler):
         srvmod.SimpleHTTPRequestHandler.do_GET(self)
 
     def send_response(self, code, message=None):
-        try:
-            db_conn = psycopg2.connect(user=pg_user, password=pg_pwd, host=pg_host, port=pg_port, database=pg_db)
-            logger.info('Connection to monitoring database successful')
-            cursor = db_conn.cursor()
-            cursor.execute("INSERT INTO http(status_code, app_version) VALUES (%s, %s)", (code, __version__))
-            db_conn.commit()
-            db_conn.close()
-        except:
-          logger.error("Couldn't connect to the monitoring database")
+        if MONITOR:
+            try:
+                db_conn = psycopg2.connect(user=pg_user, password=pg_pwd, host=pg_host, port=pg_port, database=pg_db)
+                logger.info('Connection to monitoring database successful')
+                cursor = db_conn.cursor()
+                cursor.execute("INSERT INTO http(status_code, app_version) VALUES (%s, %s)", (code, __version__))
+                db_conn.commit()
+                db_conn.close()
+            except:
+              logger.error("Couldn't connect to the monitoring database")
 
         srvmod.SimpleHTTPRequestHandler.send_response(self, code, message)
 
