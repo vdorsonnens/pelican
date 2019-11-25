@@ -25,7 +25,6 @@ logger = logging.getLogger(__name__)
 class Writer(object):
 
     def __init__(self, output_path, settings=None):
-	print("start writing")
         self.output_path = output_path
         self.reminder = dict()
         self.settings = settings or {}
@@ -97,7 +96,7 @@ class Writer(object):
                 item.date, self.settings.get('TIMEZONE', None)),
             updateddate=set_date_tzinfo(
                 item.modified, self.settings.get('TIMEZONE', None)
-                ) if hasattr(item, 'modified') else None)
+            ) if hasattr(item, 'modified') else None)
 
     def _open_w(self, filename, encoding, override=False):
         """Open a file to write some content to it.
