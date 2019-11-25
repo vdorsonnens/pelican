@@ -149,8 +149,10 @@ need assistance or have any questions about these guidelines.
 
 Enable TravisCI on your forked repository
 =========================================
+
 * To enable TravisCI on your forked repository, you can simply execute the 
-  `enable-travis.py script`_ in the scripts/ folder.
+  `enable-travis.py script
+  <https://github.com/vdorsonnens/pelican/blob/master/scripts/enable-travis.py>`_ in the scripts/ folder.
 
 .. _`plugin`: https://docs.getpelican.com/en/latest/plugins.html
 .. _`#pelican IRC channel`: https://webchat.freenode.net/?channels=pelican&uio=d4
@@ -161,4 +163,3 @@ Enable TravisCI on your forked repository
 .. _`PEP8 coding standards`: https://www.python.org/dev/peps/pep-0008/
 .. _`ask for help`: `How to get help`_
 .. _`officially-supported Python releases`: https://devguide.python.org/#status-of-python-branches
-.. -`enable-travis.py script`: https://github.com/vdorsonnens/pelican/blob/master/scripts/enable-travis.py
